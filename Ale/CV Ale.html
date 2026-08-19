@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV Interaktif - Mahalaleel Dova Suryadi</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #001a4d 0%, #003d99 50%, #001a4d 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0, 26, 77, 0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #001a4d 0%, #003d99 100%);
+            color: white;
+            padding: 60px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 400px;
+            height: 400px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -10%;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+            animation: slideDown 0.8s ease-out;
+        }
+
+        .profile-photo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            background: white;
+            padding: 5px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 80px;
+            font-weight: bold;
+            color: #001a4d;
+        }
+
+        .header h1 {
+            font-size: 3em;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .header h2 {
+            font-size: 1.5em;
+            font-weight: 300;
+            color: #e0e7ff;
+            margin-bottom: 20px;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            color: #b8c9ff;
+            margin-bottom: 20px;
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px 20px;
+            border-radius: 25px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .contact-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+        }
+
+        .contact-item span {
+            font-size: 1.2em;
+        }
+
+        .content {
+            padding: 50px 40px;
+        }
+
+        .section {
+            margin-bottom: 50px;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .section:nth-child(1) { animation-delay: 0.1s; }
+        .section:nth-child(2) { animation-delay: 0.2s; }
+        .section:nth-child(3) { animation-delay: 0.3s; }
+        .section:nth-child(4) { animation-delay: 0.4s; }
+        .section:nth-child(5) { animation-delay: 0.5s; }
+
+        .section-title {
+            font-size: 2em;
+            font-weight: 700;
+            color: #001a4d;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #003d99;
+            position: relative;
+        }
+
+        .section-title::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -3px;
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, #003d99, #0066ff);
+        }
+
+        .subsection {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, #f5f7ff 0%, #f0f4ff 100%);
+            border-left: 4px solid #003d99;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .subsection:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 20px rgba(0, 61, 153, 0.1);
+        }
+
+        .subsection h3 {
+            font-size: 1.4em;
+            color: #001a4d;
+            margin-bottom: 8px;
+        }
+
+        .subsection .date {
+            color: #003d99;
+            font-weight: 600;
+            font-size: 0.95em;
+            margin-bottom: 10px;
+        }
+
+        .subsection p {
+            color: #555;
+            line-height: 1.8;
+        }
+
+        .skills-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .skill-item {
+            background: linear-gradient(135deg, #001a4d 0%, #003d99 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .skill-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            transition: left 0.3s ease;
+        }
+
+        .skill-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(0, 61, 153, 0.3);
+        }
+
+        .skill-item:hover::before {
+            left: 100%;
+        }
+
+        .skill-item h4 {
+            font-size: 1.2em;
+            position: relative;
+            z-index: 1;
+        }
+
+        .achievement {
+            background: linear-gradient(135deg, #fff3cd 0%, #fff8e7 100%);
+            border-left: 4px solid #ffc107;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .achievement:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 20px rgba(255, 193, 7, 0.2);
+        }
+
+        .achievement h4 {
+            color: #856404;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .achievement p {
+            color: #856404;
+            line-height: 1.6;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #003d99;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .badge:hover {
+            background: #001a4d;
+            transform: scale(1.05);
+        }
+
+        .footer {
+            background: linear-gradient(135deg, #001a4d 0%, #003d99 100%);
+            color: white;
+            text-align: center;
+            padding: 30px;
+            margin-top: 50px;
+        }
+
+        .footer p {
+            margin: 5px 0;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .divider {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #003d99, transparent);
+            margin: 30px 0;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 40px 20px;
+            }
+
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .header h2 {
+                font-size: 1.2em;
+            }
+
+            .content {
+                padding: 30px 20px;
+            }
+
+            .contact-info {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .contact-item {
+                justify-content: center;
+            }
+
+            .skills-container {
+                grid-template-columns: 1fr;
+            }
+
+            .section-title {
+                font-size: 1.5em;
+            }
+        }
+
+        /* Print styles */
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+
+            .container {
+                box-shadow: none;
+                border-radius: 0;
+            }
+
+            .skill-item:hover,
+            .subsection:hover,
+            .achievement:hover {
+                transform: none;
+            }
+        }
+
+        .print-btn {
+            background: linear-gradient(135deg, #001a4d 0%, #003d99 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 1em;
+            cursor: pointer;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 26, 77, 0.3);
+        }
+
+        .print-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 26, 77, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <button class="print-btn" onclick="window.print()">🖨️ Cetak CV</button>
+
+        <div class="header">
+            <div class="header-content">
+                <div class="profile-photo">MD</div>
+                <h1>MAHALALEEL DOVA</h1>
+                <h2>SURYADI</h2>
+                <p>Siswa SMA - SMAK BPK PENABUR HOLIS</p>
+
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <span>📞</span>
+                        <div>
+                            <small>Telepon</small><br>
+                            <strong>+62 81121201206</strong>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <span>📧</span>
+                        <div>
+                            <small>Email</small><br>
+                            <strong>mahalaleelds@gmail.com</strong>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <span>📍</span>
+                        <div>
+                            <small>Alamat</small><br>
+                            <strong>Jln. Magenta 4 No. 9</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content">
+            <!-- Tentang Saya -->
+            <div class="section">
+                <h2 class="section-title">👤 TENTANG SAYA</h2>
+                <div class="subsection">
+                    <p>Saya adalah siswa jenius dan cemerlang yang selalu antusias untuk belajar sesuatu yang baru serta kemahiran saya dalam berbagai cabang olahraga yang ada. Dengan dedikasi tinggi terhadap pendidikan dan pengembangan diri, saya siap menghadapi tantangan dan berkontribusi positif dalam setiap kesempatan.</p>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- Pendidikan -->
+            <div class="section">
+                <h2 class="section-title">🎓 PENDIDIKAN</h2>
+                <div class="subsection">
+                    <h3>SMAK BPK PENABUR HOLIS</h3>
+                    <p class="date">📅 2024 - 2027</p>
+                    <p><strong>Program:</strong> Kelas IPA</p>
+                    <p>Mengikuti program pendidikan menengah atas dengan fokus pada ilmu pengetahuan alam (IPA) dengan prestasi akademis yang memuaskan.</p>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- Pengalaman -->
+            <div class="section">
+                <h2 class="section-title">💼 PENGALAMAN</h2>
+                
+                <div class="subsection">
+                    <h3>⚽ Atlet Badminton</h3>
+                    <p class="date">📅 2018 - 2024</p>
+                    <p><strong>Organisasi:</strong> SGS PLN</p>
+                    <h4>Deskripsi Tugas:</h4>
+                    <ul style="margin-left: 20px; color: #555;">
+                        <li>Berlatih bulutangkis dengan metode drilling, stroke berjalan, dan teknik-teknik dasar lainnya</li>
+                        <li>Mengembangkan keterampilan motorik dan ketangkasan dalam olahraga</li>
+                        <li>Membentuk etos kerja yang kuat dan pantang menyerah dalam diri melalui latihan intensif</li>
+                        <li>Mengikuti berbagai kompetisi dan turnamen badminton tingkat daerah</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- Prestasi -->
+            <div class="section">
+                <h2 class="section-title">🏆 PRESTASI</h2>
+                
+                <div class="achievement">
+                    <h4>🥉 Medali Perunggu - KEJURKOT Badminton 2023</h4>
+                    <p>Berhasil meraih medali perunggu dalam pertandingan badminton tingkat kota (KEJURKOT) pada tahun 2023, menunjukkan dedikasi dan kemampuan dalam cabang olahraga ini.</p>
+                </div>
+
+                <div class="achievement">
+                    <h4>📚 Siswa Berprestasi</h4>
+                    <p>Tercatat sebagai siswa dengan prestasi akademis yang konsisten di sekolah, menunjukkan komitmen terhadap pendidikan dan pengembangan diri.</p>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- Keterampilan -->
+            <div class="section">
+                <h2 class="section-title">🎯 KETERAMPILAN</h2>
+                
+                <div class="skills-container">
+                    <div class="skill-item">
+                        <h4>🗣️ Kepemimpinan</h4>
+                        <p style="font-size: 0.9em; margin-top: 10px;">Leadership</p>
+                    </div>
+                    <div class="skill-item">
+                        <h4>💡 Pemikiran Kritis</h4>
+                        <p style="font-size: 0.9em; margin-top: 10px;">Critical Thinking</p>
+                    </div>
+                    <div class="skill-item">
+                        <h4>💬 Negosiasi</h4>
+                        <p style="font-size: 0.9em; margin-top: 10px;">Negotiation</p>
+                    </div>
+                    <div class="skill-item">
+                        <h4>📱 Pemasaran Digital</h4>
+                        <p style="font-size: 0.9em; margin-top: 10px;">Digital Marketing</p>
+                    </div>
+                    <div class="skill-item">
+                        <h4>🎨 Kreativitas</h4>
+                        <p style="font-size: 0.9em; margin-top: 10px;">Creativity</p>
+                    </div>
+                    <div class="skill-item">
+                        <h4>📊 Manajemen</h4>
+                        <p style="font-size: 0.9em; margin-top: 10px;">Management Skills</p>
+                    </div>
+                </div>
+
+                <div style="margin-top: 30px;">
+                    <h3 style="color: #001a4d; margin-bottom: 15px;">Kategori Keterampilan:</h3>
+                    <div>
+                        <span class="badge">⚽ Olahraga</span>
+                        <span class="badge">📚 Akademis</span>
+                        <span class="badge">🎯 Kepribadian</span>
+                        <span class="badge">💼 Profesional</span>
+                        <span class="badge">🤝 Sosial</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- Referensi -->
+            <div class="section">
+                <h2 class="section-title">📋 REFERENSI</h2>
+                <div class="subsection">
+                    <h3>Referensi Tersedia</h3>
+                    <p><strong>Status:</strong> Referensi dapat diberikan sesuai kebutuhan</p>
+                    <p style="margin-top: 15px;">Hubungi untuk mendapatkan informasi lengkap mengenai referensi dari pembimbing olahraga, guru, dan mentor pendidikan lainnya.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p><strong>Mahalaleel Dova Suryadi</strong></p>
+            <p>🌐 CV Interaktif | 📧 mahalaleelds@gmail.com | 📞 +62 81121201206</p>
+            <p style="margin-top: 15px; font-size: 0.9em; color: #b8c9ff;">© 2026 - Semua Hak Dilindungi</p>
+        </div>
+    </div>
+</body>
+</html>
