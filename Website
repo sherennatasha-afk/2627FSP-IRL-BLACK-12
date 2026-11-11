@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IRL - Pusat Edukasi Teknologi Masa Depan</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Manrope:wght@600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Iconify Icon Player -->
+  <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            heading: ['Manrope', 'sans-serif'],
+            mono: ['Fira Code', 'monospace'],
+          },
+          colors: {
+            brand: {
+              green: '#10b981',
+              darkgreen: '#022c22',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    :root {
+      --accent-green: #10b981;
+    }
+
+    @property --gradient-angle { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
+    @keyframes rotate-gradient { to { --gradient-angle: 360deg; } }
+    @keyframes float-stars { from { transform: translateY(0px); } to { transform: translateY(-1000px); } }
+    @keyframes scan-line { 0% { top: -10%; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { top: 110%; opacity: 0; } }
+    @keyframes move-grid { 0% { transform: translateY(0); } 100% { transform: translateY(40px); } }
+
+    .shiny-btn {
+      position: relative; background: #000; border-radius: 9999px; padding: 1.5px; display: inline-flex;
+    }
+    .shiny-btn::before {
+      content: ''; position: absolute; inset: 0; border-radius: 9999px;
+      background: conic-gradient(from var(--gradient-angle), transparent 60%, var(--accent-green) 100%);
+      animation: rotate-gradient 2.5s linear infinite; z-index: 0;
+    }
+    .shiny-btn-inner { position: relative; z-index: 1; background: #09090b; border-radius: 9999px; width: 100%; height: 100%; }
+
+    .perspective-container { perspective: 1000px; overflow: hidden; }
+    .bg-grid-3d {
+      position: absolute; width: 200%; height: 200%; left: -50%; top: -10%;
+      background-size: 40px 40px;
+      background-image: 
+        linear-gradient(to right, rgba(16, 185, 129, 0.15) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(16, 185, 129, 0.15) 1px, transparent 1px);
+      transform: rotateX(65deg); transform-origin: top center;
+      mask-image: linear-gradient(to bottom, #000 0%, transparent 60%);
+      animation: move-grid 2s linear infinite;
+    }
+
+    .stars-layer {
+      width: 2px; height: 2px; background: transparent;
+      box-shadow: 120px 300px #fff, 400px 700px #fff, 800px 200px #fff, 1100px 900px #fff, 1500px 400px #fff, 300px 1200px #fff;
+      animation: float-stars 80s linear infinite;
+    }
+
+    .text-stroke-custom { -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.08); color: transparent; }
+    .scanner-line {
+      position: absolute; left: 0; right: 0; height: 2px; background: #10b981;
+      box-shadow: 0 0 20px 5px rgba(16, 185, 129, 0.6);
+      animation: scan-line 6s ease-in-out infinite; z-index: 1; pointer-events: none;
+    }
+
+    ::selection { background-color: var(--accent-green); color: #000000; }
+    
+    .code-scroll::-webkit-scrollbar { height: 6px; width: 6px; }
+    .code-scroll::-webkit-scrollbar-track { background: #000; }
+    .code-scroll::-webkit-scrollbar-thumb { background: #10b981; border-radius: 4px; }
+  </style>
+</head>
+<body class="bg-black text-zinc-400 font-sans antialiased selection:bg-[#10b981] selection:text-black relative overflow-x-hidden">
+
+  <!-- Latar Belakang -->
+  <div class="fixed top-0 left-0 right-0 h-24 bg-gradient-to-b from-black via-black/80 to-transparent backdrop-blur-md z-40 pointer-events-none"></div>
+  <div class="fixed inset-0 pointer-events-none z-0 perspective-container">
+    <div class="absolute top-0 left-0 right-0 h-[600px] bg-gradient-to-b from-[#022c22] to-transparent opacity-80"></div>
+    <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-[#10b981]/15 rounded-full blur-[140px]"></div>
+    <div class="bg-grid-3d"></div>
+    <div class="scanner-line"></div>
+    <div class="stars-layer absolute inset-0 opacity-40"></div>
+  </div>
+
+  <!-- Navbar -->
+  <header class="fixed top-6 inset-x-0 z-50 flex justify-center px-4">
+    <nav class="w-full max-w-5xl bg-black/60 backdrop-blur-xl border border-white/10 rounded-full py-2.5 px-6 flex items-center justify-between shadow-2xl">
+      <a href="#hero" class="flex items-center gap-3 group">
+        <div class="w-7 h-7 bg-[#10b981] rotate-45 flex items-center justify-center rounded-sm shadow-[0_0_12px_rgba(16,185,129,0.6)]">
+          <div class="w-3 h-3 bg-black -rotate-45"></div>
+        </div>
+        <span class="font-heading font-bold text-white text-lg tracking-tight">Insight <span class="text-[#10b981]">Academy</span></span>
+      </a>
+
+      <!-- Link Navigasi (ditambah link Uji Kuis) -->
+      <div class="hidden md:flex items-center gap-8 text-sm font-medium text-zinc-400">
+        <a href="#modul" class="nav-link hover:text-white transition-colors active:scale-95">Modul Belajar</a>
+        <a href="#algoritma" class="nav-link hover:text-white transition-colors active:scale-95">Algoritma</a>
+        <a href="#kuis" class="nav-link hover:text-[#10b981] transition-colors active:scale-95">Mini Kuis</a>
+      </div>
+
+      <!-- Tombol Navbar -->
+      <div class="flex items-center gap-3">
+        <a href="#portal" id="btn-nav-access" class="shiny-btn nav-link group cursor-pointer active:scale-95 transition-transform">
+          <div class="shiny-btn-inner px-5 py-2 flex items-center gap-2 text-sm font-medium text-white">
+            <span>Akses Penuh</span>
+            <iconify-icon icon="lucide:graduation-cap" class="group-hover:translate-x-1 transition-transform"></iconify-icon>
+          </div>
+        </a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="relative z-10 pt-32">
+    <!-- SECTION 1: HERO -->
+    <section id="hero" class="py-20 md:py-32 px-4 max-w-5xl mx-auto text-center flex flex-col items-center">
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-medium text-zinc-300 mb-8 backdrop-blur-md">
+        <span class="relative flex h-2 w-2">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#10b981] opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-2 w-2 bg-[#10b981]"></span>
+        </span>
+        <span>Kelas Kriptografi Quantum Telah Dibuka</span>
+      </div>
+
+      <h1 class="font-heading font-extrabold text-4xl sm:text-6xl md:text-7xl tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white via-white to-white/40 leading-[1.1] mb-6">
+        Pelajari Teknologi <br>
+        <span class="relative text-[#10b981] inline-block">
+          Masa Depan
+          <svg class="absolute -bottom-2 left-0 w-full h-3 text-[#10b981]" viewBox="0 0 100 20" preserveAspectRatio="none">
+            <path d="M0,15 Q50,0 100,15" stroke="currentColor" stroke-width="4" fill="none" stroke-linecap="round"/>
+          </svg>
+        </span>
+      </h1>
+
+      <p class="text-base sm:text-xl text-zinc-400 max-w-2xl font-light leading-relaxed mb-10">
+        Platform edukasi untuk engineer dan periset. Pelajari ilmu di balik kecerdasan buatan, komputasi kuantum, hingga robotika tingkat lanjut secara praktis dan mendalam.
+      </p>
+
+      <div class="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
+        <a href="#modul" class="shiny-btn nav-link w-full sm:w-auto cursor-pointer active:scale-95 transition-transform">
+          <div class="shiny-btn-inner px-8 py-3.5 flex items-center justify-center gap-2 text-base font-semibold text-white">
+            <span>Mulai Belajar</span>
+            <iconify-icon icon="lucide:rocket" class="text-[#10b981]"></iconify-icon>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- SECTION 2: MODUL PEMBELAJARAN -->
+    <section id="modul" class="py-32 px-4 max-w-7xl mx-auto">
+      <div class="text-center mb-16">
+        <h2 class="text-xs uppercase tracking-widest text-[#10b981] font-bold mb-3">Kurikulum 2026</h2>
+        <p class="font-heading text-3xl md:text-5xl font-bold text-white tracking-tight">Pilih Jalur Risetmu</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <a href="#algoritma" class="bg-gradient-to-b from-zinc-900/80 to-black border border-white/10 rounded-xl p-8 relative overflow-hidden group hover:border-[#10b981]/40 transition-all interactive-card cursor-pointer flex flex-col h-full">
+          <div class="w-12 h-12 rounded-lg bg-[#10b981]/10 border border-[#10b981]/30 flex items-center justify-center text-[#10b981] mb-6">
+            <iconify-icon icon="lucide:brain-circuit" width="24"></iconify-icon>
+          </div>
+          <h3 class="font-heading font-bold text-xl text-white mb-2 group-hover:text-[#10b981] transition-colors">Neural Networks & Deep Learning</h3>
+          <p class="text-zinc-400 text-sm leading-relaxed mb-6 flex-grow">Pelajari dasar arsitektur AI, algoritma Backpropagation, dan cara mesin mengenali pola kompleks.</p>
+          <div class="text-xs font-mono text-[#10b981] flex items-center gap-2 mt-auto">
+            <span>12 Pelajaran</span> • <span>Advanced</span>
+          </div>
+        </a>
+        <a href="#algoritma" class="bg-gradient-to-b from-zinc-900/80 to-black border border-white/10 rounded-xl p-8 relative overflow-hidden group hover:border-[#10b981]/40 transition-all interactive-card cursor-pointer flex flex-col h-full">
+          <div class="w-12 h-12 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 mb-6">
+            <iconify-icon icon="lucide:radar" width="24"></iconify-icon>
+          </div>
+          <h3 class="font-heading font-bold text-xl text-white mb-2 group-hover:text-emerald-400 transition-colors">Komputasi Kuantum</h3>
+          <p class="text-zinc-400 text-sm leading-relaxed mb-6 flex-grow">Pahami prinsip Qubits, Superposisi, Entanglement, dan algoritma Shor untuk pemecahan masalah.</p>
+          <div class="text-xs font-mono text-emerald-400 flex items-center gap-2 mt-auto">
+            <span>8 Pelajaran</span> • <span>Expert</span>
+          </div>
+        </a>
+        <a href="#algoritma" class="bg-gradient-to-b from-zinc-900/80 to-black border border-white/10 rounded-xl p-8 relative overflow-hidden group hover:border-[#10b981]/40 transition-all interactive-card cursor-pointer flex flex-col h-full">
+          <div class="w-12 h-12 rounded-lg bg-teal-500/10 border border-teal-500/30 flex items-center justify-center text-teal-400 mb-6">
+            <iconify-icon icon="lucide:shield-alert" width="24"></iconify-icon>
+          </div>
+          <h3 class="font-heading font-bold text-xl text-white mb-2 group-hover:text-teal-400 transition-colors">Post-Quantum Cryptography</h3>
+          <p class="text-zinc-400 text-sm leading-relaxed mb-6 flex-grow">Desain sistem keamanan siber generasi baru yang tahan terhadap serangan peretasan komputer kuantum.</p>
+          <div class="text-xs font-mono text-teal-400 flex items-center gap-2 mt-auto">
+            <span>15 Pelajaran</span> • <span>Intermediate</span>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- SECTION 3: RUMUS & ALGORITMA (TAB SYSTEM INTERAKTIF) -->
+    <section id="algoritma" class="py-20 px-4 max-w-5xl mx-auto">
+      <div class="bg-black/80 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden shadow-[0_0_40px_rgba(16,185,129,0.15)]">
+        
+        <div class="bg-zinc-900/50 border-b border-white/10 px-6 py-4 flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <iconify-icon icon="lucide:terminal" class="text-[#10b981]"></iconify-icon>
+            <span class="font-heading font-bold text-white text-sm">Pusat Data Rumus (Live Engine)</span>
+          </div>
+          <div class="flex gap-1.5">
+            <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
+            <div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>
+            <div class="w-3 h-3 rounded-full bg-green-500/80"></div>
+          </div>
+        </div>
+
+        <div class="flex overflow-x-auto border-b border-white/10 bg-black code-scroll">
+          <button class="tab-btn active px-6 py-3 text-sm font-medium border-b-2 border-[#10b981] text-[#10b981] whitespace-nowrap transition-colors" data-target="tab-nn">Backpropagation (AI)</button>
+          <button class="tab-btn px-6 py-3 text-sm font-medium border-b-2 border-transparent text-zinc-500 hover:text-zinc-300 whitespace-nowrap transition-colors" data-target="tab-quantum">Algoritma Shor (Quantum)</button>
+          <button class="tab-btn px-6 py-3 text-sm font-medium border-b-2 border-transparent text-zinc-500 hover:text-zinc-300 whitespace-nowrap transition-colors" data-target="tab-crypto">Enkripsi RSA (Cyber)</button>
+        </div>
+
+        <div class="p-6 md:p-8 bg-[#020202]">
+          <div id="tab-nn" class="tab-content block">
+            <h4 class="text-white font-bold mb-2 font-heading">Pembaruan Bobot Jaringan Saraf Tiruan</h4>
+            <p class="text-zinc-400 text-sm mb-4">Rumus yang digunakan AI untuk belajar dari kesalahan (Error Minimization) menggunakan algoritma Gradient Descent.</p>
+            <div class="bg-[#09090b] border border-white/5 rounded-lg p-5 font-mono text-sm overflow-x-auto code-scroll">
+<pre class="text-[#10b981]">
+<span class="text-zinc-500">// 1. Hitung Error (Mean Squared Error)</span>
+E = 1/2 ∑ (Target - Output)²
+
+<span class="text-zinc-500">// 2. Hitung Gradien menggunakan Aturan Rantai (Chain Rule)</span>
+<span class="text-blue-400">Δw</span> = -η * (∂E / ∂w)
+   = -η * (∂E / ∂Output) * (∂Output / ∂Net) * (∂Net / ∂w)
+
+<span class="text-zinc-500">// 3. Update Bobot (Weight)</span>
+W_baru = W_lama + <span class="text-blue-400">Δw</span>
+</pre>
+            </div>
+          </div>
+          <!-- (Konten Tab Quantum & Crypto disembunyikan untuk kerapian code snippet) -->
+          <div id="tab-quantum" class="tab-content hidden">
+            <h4 class="text-white font-bold mb-2 font-heading">Faktorisasi Algoritma Shor</h4>
+            <div class="bg-[#09090b] border border-white/5 rounded-lg p-5 font-mono text-sm overflow-x-auto code-scroll">
+<pre class="text-emerald-400"># Temukan faktor prima dari N
+<span class="text-zinc-500"># Temukan faktor prima dari N</span>
+def shors_algorithm(N):
+    <span class="text-zinc-500"># 1. Pilih angka acak 'a' < N</span>
+    a = random_choice(2, N-1)
+    
+    <span class="text-zinc-500"># 2. Cari FPB(a, N) klasik</span>
+    if gcd(a, N) != 1:
+        return gcd(a, N)
+        
+    <span class="text-zinc-500"># 3. Kuantum: Temukan periode 'r' fungsi f(x) = a^x mod N</span>
+    r = quantum_period_finding(a, N)
+    
+    <span class="text-zinc-500"># 4. Jika 'r' ganjil, ulangi. Jika genap, hitung faktor:</span>
+    faktor_1 = gcd(a^(r/2) - 1, N)
+    faktor_2 = gcd(a^(r/2) + 1, N)
+    
+    return (faktor_1, faktor_2)
+</pre>
+            </div>
+          </div>
+          <div id="tab-crypto" class="tab-content hidden">
+            <h4 class="text-white font-bold mb-2 font-heading">Pembangkitan Kunci RSA Dasar</h4>
+            <div class="bg-[#09090b] border border-white/5 rounded-lg p-5 font-mono text-sm overflow-x-auto code-scroll">
+<pre class="text-teal-400">c = m^e mod n</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION BARU: MINI KUIS SIBER -->
+    <section id="kuis" class="py-20 px-4 max-w-4xl mx-auto">
+      <div class="bg-gradient-to-b from-zinc-900/90 to-[#022c22]/50 border border-[#10b981]/30 rounded-3xl p-8 md:p-12 relative overflow-hidden shadow-[0_0_40px_rgba(16,185,129,0.15)]">
+        
+        <!-- Header Kuis -->
+        <div class="flex items-center gap-3 mb-6">
+          <div class="w-10 h-10 rounded-full bg-[#10b981]/20 flex items-center justify-center text-[#10b981]">
+            <iconify-icon icon="lucide:gamepad-2" width="20"></iconify-icon>
+          </div>
+          <div>
+            <h2 class="text-xl font-heading font-bold text-white">Uji Pemahaman Sistem</h2>
+            <p class="text-sm text-zinc-400 font-mono">Level: Intermediat</p>
+          </div>
+        </div>
+
+        <!-- Pertanyaan -->
+        <div class="mb-8">
+          <p class="text-lg text-white font-medium leading-relaxed">
+            Berdasarkan data di Pusat Rumus sebelumnya, apa tujuan utama dari algoritma <span class="text-[#10b981] font-mono">Backpropagation</span> pada Artificial Intelligence?
+          </p>
+        </div>
+
+        <!-- Pilihan Jawaban (Interactive) -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4" id="quiz-container">
+          <button class="quiz-btn text-left p-4 rounded-xl border border-white/10 bg-black/50 hover:bg-white/5 hover:border-[#10b981]/50 text-zinc-300 transition-all font-mono text-sm active:scale-95" data-correct="false">
+            <span class="text-[#10b981] font-bold mr-2">A.</span> Mempercepat koneksi server ke database global
+          </button>
+          
+          <!-- Ini adalah jawaban yang benar (data-correct="true") -->
+          <button class="quiz-btn text-left p-4 rounded-xl border border-white/10 bg-black/50 hover:bg-white/5 hover:border-[#10b981]/50 text-zinc-300 transition-all font-mono text-sm active:scale-95" data-correct="true">
+            <span class="text-[#10b981] font-bold mr-2">B.</span> Memperbarui bobot (weights) untuk meminimalkan error
+          </button>
+          
+          <button class="quiz-btn text-left p-4 rounded-xl border border-white/10 bg-black/50 hover:bg-white/5 hover:border-[#10b981]/50 text-zinc-300 transition-all font-mono text-sm active:scale-95" data-correct="false">
+            <span class="text-[#10b981] font-bold mr-2">C.</span> Mencari faktor prima dari sebuah bilangan integer besar
+          </button>
+          
+          <button class="quiz-btn text-left p-4 rounded-xl border border-white/10 bg-black/50 hover:bg-white/5 hover:border-[#10b981]/50 text-zinc-300 transition-all font-mono text-sm active:scale-95" data-correct="false">
+            <span class="text-[#10b981] font-bold mr-2">D.</span> Mengunci data menggunakan Public dan Private Key
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 4: PORTAL FORM -->
+    <section id="portal" class="py-32 px-4 max-w-4xl mx-auto text-center">
+      <div class="bg-gradient-to-b from-zinc-900/80 to-black border border-white/10 rounded-3xl p-10 md:p-16 relative overflow-hidden">
+        <h2 class="font-heading text-3xl sm:text-5xl font-extrabold text-white tracking-tight mb-4">Daftar Akademi Riset</h2>
+        <p class="text-zinc-400 text-base mb-8 max-w-xl mx-auto">Daftarkan email Anda untuk membuka kunci kurikulum penuh, modul koding interaktif, dan sertifikat kelulusan siber.</p>
+        
+        <form id="portal-form" class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+          <input type="email" required placeholder="Masukkan email kamu..." class="flex-1 bg-white/5 border border-white/10 rounded-full px-6 py-3.5 text-white placeholder:text-zinc-600 focus:outline-none focus:border-[#10b981] transition-colors text-sm font-mono">
+          <button type="submit" class="bg-[#10b981] hover:bg-emerald-600 text-black font-bold px-8 py-3.5 rounded-full transition-colors text-sm active:scale-95">
+            Daftar Gratis
+          </button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="border-t border-white/10 pt-20 pb-12 bg-black relative z-10 overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 text-center">
+      <div class="my-8 select-none">
+        <span class="font-heading font-extrabold text-4xl sm:text-7xl md:text-[8rem] text-stroke-custom tracking-tighter leading-none block">
+          INSIGHT ACADEMY
+        </span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- SCRIPT -->
+  <script>
+    function createTerminalToast(message) {
+      const toast = document.createElement('div');
+      toast.className = 'fixed bottom-6 right-6 bg-[#022c22] border border-[#10b981] text-[#10b981] px-5 py-4 rounded-lg shadow-[0_0_20px_rgba(16,185,129,0.4)] transform transition-all duration-500 translate-y-20 opacity-0 z-[100] flex items-center gap-3 font-mono text-sm';
+      toast.innerHTML = `<iconify-icon icon="lucide:terminal" width="20" class="animate-pulse"></iconify-icon><span>> ${message}</span>`;
+      document.body.appendChild(toast);
+      
+      setTimeout(() => toast.classList.remove('translate-y-20', 'opacity-0'), 50);
+      setTimeout(() => {
+        toast.classList.add('translate-y-20', 'opacity-0');
+        setTimeout(() => toast.remove(), 500); 
+      }, 3000);
+    }
+
+    const navLinks = document.querySelectorAll('.nav-link');
+    navLinks.forEach(link => {
+      link.addEventListener('click', function() {
+        const targetId = this.getAttribute('href').replace('#', '');
+        createTerminalToast(`Mengakses rute: ${targetId.toUpperCase()}...`);
+      });
+    });
+
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const tabContents = document.querySelectorAll('.tab-content');
+    tabBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        tabBtns.forEach(b => {
+          b.classList.remove('border-[#10b981]', 'text-[#10b981]');
+          b.classList.add('border-transparent', 'text-zinc-500');
+        });
+        tabContents.forEach(content => {
+          content.classList.remove('block');
+          content.classList.add('hidden');
+        });
+        btn.classList.remove('border-transparent', 'text-zinc-500');
+        btn.classList.add('border-[#10b981]', 'text-[#10b981]');
+        const targetId = btn.getAttribute('data-target');
+        document.getElementById(targetId).classList.remove('hidden');
+        document.getElementById(targetId).classList.add('block');
+        createTerminalToast(`Memuat direktori data: ${targetId}...`);
+      });
+    });
+
+    // --- LOGIKA BARU UNTUK KUIS SIBER ---
+    const quizBtns = document.querySelectorAll('.quiz-btn');
+    quizBtns.forEach(btn => {
+      btn.addEventListener('click', function() {
+        // Cek apakah tombol yang diklik adalah jawaban yang benar (menggunakan atribut HTML kita)
+        const isCorrect = this.getAttribute('data-correct') === 'true';
+
+        // 1. Kunci semua tombol agar pengguna tidak bisa mengklik dua kali
+        quizBtns.forEach(b => {
+          b.disabled = true; // Menonaktifkan klik
+          b.classList.remove('hover:bg-white/5', 'hover:border-[#10b981]/50', 'active:scale-95');
+          b.classList.add('opacity-50', 'cursor-not-allowed'); // Memberi efek pudar
+        });
+
+        // 2. Berikan warna berdasarkan jawaban
+        this.classList.remove('opacity-50'); // Jaga agar tombol yang dipilih tetap terang
+        
+        if (isCorrect) {
+          // Jika benar: Warna tombol jadi Emerald Green
+          this.classList.add('bg-[#10b981]/20', 'border-[#10b981]', 'text-[#10b981]');
+          createTerminalToast('[SUCCESS] Jawaban Benar! Pemahaman arsitektur tervalidasi.');
+        } else {
+          // Jika salah: Warna tombol jadi Merah
+          this.classList.add('bg-red-500/20', 'border-red-500', 'text-red-400');
+          createTerminalToast('[ERROR] Jawaban Salah. Deteksi anomali memori.');
+          
+          // Tunjukkan mana jawaban yang seharusnya benar
+          const correctBtn = document.querySelector('.quiz-btn[data-correct="true"]');
+          correctBtn.classList.remove('opacity-50');
+          correctBtn.classList.add('border-[#10b981]', 'text-[#10b981]');
+        }
+      });
+    });
+
+    const portalForm = document.getElementById('portal-form');
+    if(portalForm) {
+      portalForm.addEventListener('submit', function(e) {
+        e.preventDefault(); 
+        createTerminalToast('Akses dikirim. Menunggu verifikasi server...');
+        this.reset();
+      });
+    }
+  </script>
+</body>
+</html>
